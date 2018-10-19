@@ -20,14 +20,13 @@ def user_guess():
 
 def compare_value(your_guess, generated_number):
     i = 0
-    if your_guess != generated_number and i < 9:
+    while your_guess != generated_number and i < 9:
         i += 1
         if your_guess > generated_number:
             print("Guess Lower, {} tries left!".format(10-i))
-            user_guess()
         else:
             print("Guess Higher, {} tries left!".format(10-i))
-            user_guess()
+        your_guess = user_guess()
     else:
         if your_guess == generated_number:
             print("You Win!")
