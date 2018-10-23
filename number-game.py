@@ -6,7 +6,6 @@ logger = logging.getLogger(__name__)
 
 def main():
     gn = number_generator()
-    # print(gn)
     un = user_guess()
     compare_value(un, gn)
 
