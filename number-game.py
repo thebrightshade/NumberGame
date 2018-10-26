@@ -16,32 +16,20 @@ def number_generator():
 
 
 def user_guess():
-    try:
-        your_guess = int(input("Please guess a number between 1 and 1000: "))
-        return your_guess
-    except Exception as error:
-        logger.error(error)
-        raise
+    your_guess = int(input("Please guess a number between 1 and 1000: "))
+    return your_guess
 
 
 def compare_value(your_guess, generated_number):
     i = 1
     while your_guess != generated_number and i < 10:
         if your_guess > generated_number:
-            try:
-                your_guess = int(
-                    input("{} tries left! Guess Lower: ".format(10-i)))
-            except Exception as error:
-                logger.error(error)
-                raise
-        else:
-            try:
-                your_guess = int(
-                    input("{} tries left! Guess Higher: ".format(10-i)))
-            except Exception as error:
-                logger.error(error)
-                raise
+            your_guess = int(
+                input("{} tries left! Guess Lower: ".format(10-i)))
 
+        else:
+            your_guess = int(
+                input("{} tries left! Guess Higher: ".format(10-i)))
         i += 1
     else:
         if your_guess == generated_number:
