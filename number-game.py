@@ -1,13 +1,12 @@
 import random
-import logging
-
-logger = logging.getLogger(__name__)
 
 
 def main():
     gn = number_generator()
-    un = user_guess()
-    compare_value(un, gn)
+    yg = user_guess()
+    un = int_convert(yg)
+    resp = compare_value(un, gn)
+    play_again(resp)
 
 
 def number_generator():
@@ -16,26 +15,66 @@ def number_generator():
 
 
 def user_guess():
-    your_guess = int(input("Please guess a number between 1 and 1000: "))
+    your_guess = input("Please guess a number between 1 and 1000: ")
+    return your_guess
+
+
+def int_convert(your_guess):
+    done = False
+    while not done:
+        try:
+            your_guess = int(your_guess)
+            done = True
+        except ValueError:
+            print("You did not enter a number... Try Again!")
+            main()
     return your_guess
 
 
 def compare_value(your_guess, generated_number):
     i = 1
-    while your_guess != generated_number and i < 10:
-        if your_guess > generated_number:
-            your_guess = int(
-                input("{} tries left! Guess Lower: ".format(10-i)))
+    try:
+        while your_guess != generated_number and i < 10 and type(
+                your_guess) == int:
+            if your_guess > generated_number:
+                try:
+                    your_guess = int(input(
+                        "{} tries left! Guess Lower: ".format(10-i)))
+                except ValueError:
+                    print("You did not enter a number... Try again!")
+                    your_guess = int(input(
+                        "{} tries left! Guess Lower: ".format(10-i)))
 
+            else:
+                your_guess = int(input(
+                    "{} tries left! Guess Higher: ".format(10-i)))
+            i += 1
         else:
-            your_guess = int(
-                input("{} tries left! Guess Higher: ".format(10-i)))
-        i += 1
+            if your_guess == generated_number:
+                print("You Win! You guessed the number in {} tries.".format(i))
+            elif type(your_guess) != int:
+                your_guess = int(input(
+                    "Please enter a number, {} tries left!: ".format(10-i)))
+            else:
+                print("You Lose! My number was {}".format(generated_number))
+            response = input("Do you want to play again (Y/N)? ")
+            return response
+    except Exception as e:
+        print("Had this error: {}".format(e))
+        # raise e
+
+
+def play_again(response):
+    while response.upper() != "Y":
+        if response.upper() == "N":
+            print("Thanks for playing. Good Bye!")
+            break
+        else:
+            response = input(
+                '''Sorry, I didn't understand that.
+Do you want to play again(Y/N)? ''')
     else:
-        if your_guess == generated_number:
-            print("You Win! You guessed the number in {} tries.".format(i))
-        else:
-            print("You Lose! My number was {}".format(generated_number))
+        main()
 
 
 if __name__ == '__main__':
